@@ -1,0 +1,114 @@
+<?php
+
+
+/*
+ * Created %makedate%
+ *
+ */
+class %className%_dao extends dao {
+
+
+    private $allValue = array();
+    private $%hensuName%;
+
+    // セッターゲッター
+    public function set%setgetName%($set) { %setter% }
+    public function get%setgetName%() { %getter%; }
+
+    public function getAllValue() {
+        $this->allValue[0]["%colName%"]  = $this->%hensuName%;
+        return $this->allValue;
+    }
+
+
+
+
+    /**
+     * コンストラクタ
+     * 親クラスのコンストラクタを呼ぶ。
+     */
+    public function __construct() {
+        parent::__construct();
+    }
+
+
+
+    /**
+	 * すべてのデータ取得。
+     * @see class
+	 * @param 
+	 * @return array データ。
+	 */
+    public function getAllData() {
+        return $this -> executeSql("SELECT * FROM %className%");
+    }
+
+
+
+    /**
+	 * idでデータを取得
+	 * @see class
+	 * @param int id
+	 * @return array データ。
+	 */
+    public function getDataById($id) {
+        $sql = "SELECT * FROM %className% WHERE %columId% = ?";
+        $params = array($id);
+        return $this->executePrepare($sql, $params);
+    }
+
+
+
+	/**
+	 * idでデータを更新。
+	 * @see class
+	 * @param int id
+	 * @return bool 更新結果。
+	 */
+    public function updateData() {
+
+        $sql = "UPDATE %className% SET 
+        %upcolName% = ? 
+        WHERE %columId% = ? ";
+        
+        $params = array(
+            $this->%insetName%,
+            $this->%insetLast%,
+            $this->%getIdName%
+        );
+        return $this->executePrepareWhite($sql, $params);
+    }
+
+
+
+	/**
+	 * 新規登録。
+	 * @see class
+	 * @param int id
+	 * @return bool 登録結果。
+	 */
+    public function insertData() {
+        $sql = "INSERT INTO %className% values ('',
+        %inserthatena%,
+        ?)";
+        $params = array(
+            "{$this->%insetName%}",
+            "{$this->%insetLast%}"
+        );
+        return $this->executePrepareWhite($sql, $params);
+    }
+
+
+
+	/**
+	 * データの削除。
+	 * @see class
+	 * @param int id
+	 * @return bool 削除結果。
+	 */
+    private function deleteDataById() {
+        $sql = "DELETE FROM %className% WHERE %columId% = ?";
+        $params = array($this->%getIdName%);
+        return $this->executePrepareWhite($sql, $params);
+    }
+}
